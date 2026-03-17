@@ -42,10 +42,12 @@ function remove(window) {
         if (whitelist.indexOf(window.resourceClass.toString().trim().toLowerCase()) > -1) {
             print("removed whitelist");
             callHIDService("1",window.resourceClass.toString().trim().toLowerCase());
+            currentDPI = "800"
         }
         else if (greylist.indexOf(window.resourceClass.toString().trim().toLowerCase()) > -1) {
             print("removed greylist");
             callHIDService("1",window.resourceClass.toString().trim().toLowerCase());
+            currentDPI = "800"
         }
     }
 }
