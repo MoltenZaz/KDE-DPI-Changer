@@ -7,6 +7,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+var currentDPI = "800"
+
 var whitelist = readConfig("Whitelist", "inoaaionoannoa").toString().toLowerCase().split(",");
 for (i = 0; i < whitelist.length; ++i)
     whitelist[i] = whitelist[i].trim();
@@ -19,11 +21,17 @@ function setup(window) {
     if (window) {
         if (whitelist.indexOf(window.resourceClass.toString().trim().toLowerCase()) > -1) {
             print("Is whitelist");
-            callHIDService("2",window.resourceClass.toString().trim().toLowerCase());
+            if (currentDPI != "1600") {
+                callHIDService("2",window.resourceClass.toString().trim().toLowerCase());
+                currentDPI = "1600"
+            }
         }
         else if (greylist.indexOf(window.resourceClass.toString().trim().toLowerCase()) > -1) {
             print("Is greylist");
-            callHIDService("0",window.resourceClass.toString().trim().toLowerCase());
+            if (currentDPI != "400") {
+                callHIDService("0",window.resourceClass.toString().trim().toLowerCase());
+                currentDPI = "400"
+            }
         }
     }
 }
@@ -54,6 +62,7 @@ function callHIDService(value, window) {
     print("Called DPI Executor with value: " + value + " " + window);
 }
 
-workspace.windowAdded.connect(setup);
+// workspace.windowAdded.connect(setup);
+workspace.windowActivated.connect(setup);
 workspace.windowRemoved.connect(remove);
 // workspace.windowList().forEach(setup);
